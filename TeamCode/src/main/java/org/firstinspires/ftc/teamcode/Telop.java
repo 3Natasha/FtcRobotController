@@ -33,7 +33,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /*
  * This file contains an example of a Linear "OpMode".
@@ -69,10 +71,19 @@ public class Telop extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFrontDrive = null;
-    private DcMotor leftBackDrive = null;
-    private DcMotor rightFrontDrive = null;
-    private DcMotor rightBackDrive = null;
+    private DcMotor leftFrontDrive;
+    private DcMotor leftBackDrive;
+    private DcMotor rightFrontDrive;
+    private DcMotor rightBackDrive;
+    private DcMotor leftLiftMtr; //left_lift_mtr;
+    private DcMotor rightLiftMtr; //right_lift_mtr;
+    private DcMotor arm;
+    private Servo claw;
+
+      int Triangle = 855;
+      int Square = 1135;
+      int OpCross = 1220;
+      int Circle = 0;
 
     @Override
     public void runOpMode() {
@@ -83,6 +94,10 @@ public class Telop extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        leftLiftMtr = hardwareMap.get(DcMotor.class, "left_lift_mtr");
+        rightLiftMtr = hardwareMap.get(DcMotor.class, "right_lift_mtr");
+        arm = hardwareMap.get(DcMotor.class, "arm_mtr");
+        claw = hardwareMap.get(Servo.class, "Intake");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -98,6 +113,9 @@ public class Telop extends LinearOpMode {
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftLiftMtr.setDirection(DcMotor.Direction.FORWARD);
+        rightLiftMtr.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.REVERSE);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -114,6 +132,13 @@ public class Telop extends LinearOpMode {
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
             double yaw     =  gamepad1.right_stick_x;
+
+            if (-gamepad2.left_stick_y > 0.05 || -gamepad2.left_stick_y < -0.05) {
+                leftLiftMtr.setPower(gamepad2.left_stick_y * 1);
+                rightLiftMtr.setPower(gamepad2.left_stick_y * 1);
+            } else {
+                leftLiftMtr.setPower(0.01);
+                rightLiftMtr.setPower(0.01);}
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
@@ -157,6 +182,34 @@ public class Telop extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+
+            if (gamepad2.triangle) {
+                arm.setTargetPosition(Triangle);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setPower(0.4);
+            }
+            if (gamepad2.square) {
+                arm.setTargetPosition(Square);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setPower(0.4);
+            }
+            if (gamepad2.cross) {
+                // high bucket
+                arm.setTargetPosition(OpCross);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setPower(0.4);
+            }
+            if (gamepad2.circle) {
+                arm.setTargetPosition(Circle);
+                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                arm.setPower(0.3);
+            }
+            if (gamepad2.right_bumper){
+            claw.setPosition(1);}
+            if (gamepad2.left_bumper){
+                claw.setPosition(-1);
+            }
+
 
             // Show the elapsed game time and wheel power.
            // telemetry.addData("Status", "Run Time: " + runtime.toString());
