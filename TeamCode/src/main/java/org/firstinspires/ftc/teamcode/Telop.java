@@ -70,17 +70,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class Telop extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
-    private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor leftFrontDrive;
-    private DcMotor leftBackDrive;
-    private DcMotor rightFrontDrive;
-    private DcMotor rightBackDrive;
-    private DcMotor leftLiftMtr; //left_lift_mtr;
-    private DcMotor rightLiftMtr; //right_lift_mtr;
-    private DcMotor arm;
-    private Servo claw;
+    private final ElapsedTime runtime = new ElapsedTime();
 
-      int Triangle = 855;
+    int Triangle = 855;
       int Square = 1135;
       int OpCross = 1220;
       int Circle = 0;
@@ -90,14 +82,16 @@ public class Telop extends LinearOpMode {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        leftFrontDrive  = hardwareMap.get(DcMotor.class, "left_front_drive");
-        leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
-        leftLiftMtr = hardwareMap.get(DcMotor.class, "left_lift_mtr");
-        rightLiftMtr = hardwareMap.get(DcMotor.class, "right_lift_mtr");
-        arm = hardwareMap.get(DcMotor.class, "arm_mtr");
-        claw = hardwareMap.get(Servo.class, "Intake");
+        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
+        DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
+        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
+        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        //left_lift_mtr;
+        DcMotor leftLiftMtr = hardwareMap.get(DcMotor.class, "left_lift_mtr");
+        //right_lift_mtr;
+        DcMotor rightLiftMtr = hardwareMap.get(DcMotor.class, "right_lift_mtr");
+        DcMotor arm = hardwareMap.get(DcMotor.class, "arm_mtr");
+        Servo claw = hardwareMap.get(Servo.class, "Intake");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -137,8 +131,8 @@ public class Telop extends LinearOpMode {
                 leftLiftMtr.setPower(gamepad2.left_stick_y * 1);
                 rightLiftMtr.setPower(gamepad2.left_stick_y * 1);
             } else {
-                leftLiftMtr.setPower(0.01);
-                rightLiftMtr.setPower(0.01);}
+                leftLiftMtr.setPower(0.1);
+                rightLiftMtr.setPower(0.1);}
 
             // Combine the joystick requests for each axis-motion to determine each wheel's power.
             // Set up a variable for each drive wheel to save the power level for telemetry.
