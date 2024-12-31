@@ -82,10 +82,10 @@ public class Telop extends LinearOpMode {
 
         // Initialize the hardware variables. Note that the strings used here must correspond
         // to the names assigned during the robot configuration step on the DS or RC devices.
-        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "left_front_drive");
-        DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "left_back_drive");
-        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
-        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        DcMotor leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFront");
+        DcMotor leftBackDrive = hardwareMap.get(DcMotor.class, "leftRear");
+        DcMotor rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFront");
+        DcMotor rightBackDrive = hardwareMap.get(DcMotor.class, "rightRear");
         //left_lift_mtr;
         DcMotor leftLiftMtr = hardwareMap.get(DcMotor.class, "left_lift_mtr");
         //right_lift_mtr;
