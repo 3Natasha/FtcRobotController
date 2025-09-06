@@ -52,10 +52,10 @@ public class Telop extends LinearOpMode {
     // Declare OpMode members for each of the 4 motors.
     private final ElapsedTime runtime = new ElapsedTime();
 
-    int Triangle = 855;
-      int Square = 1135;
-      int OpCross = 1220;
-      int Circle = 0;
+    int Triangle = 0;
+      int Square = 600;
+     // int OpCross = 1220;
+      int Circle = 400;
 
     @Override
     public void runOpMode() {
@@ -80,11 +80,11 @@ public class Telop extends LinearOpMode {
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leftLiftMtr.setDirection(DcMotor.Direction.FORWARD);
         rightLiftMtr.setDirection(DcMotor.Direction.REVERSE);
-        arm.setDirection(DcMotor.Direction.REVERSE);
+        arm.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
-        telemetry.update();
+       // telemetry.update();
 
         waitForStart();
         runtime.reset();
@@ -158,16 +158,16 @@ public class Telop extends LinearOpMode {
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 arm.setPower(0.4);
             }
-            if (gamepad2.cross) {
-                // high bucket
-                arm.setTargetPosition(OpCross);
-                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                arm.setPower(0.4);
+//            if (gamepad2.cross) {
+//                // high bucket
+//                arm.setTargetPosition(OpCross);
+//                arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//                arm.setPower(0.4);
             }
             if (gamepad2.circle) {
                 arm.setTargetPosition(Circle);
                 arm.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                arm.setPower(0.3);
+                arm.setPower(-0.3);
             }
             if (gamepad2.right_bumper){
             claw.setPosition(1);}
@@ -178,8 +178,9 @@ public class Telop extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
            // telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
-            telemetry.update();
+//            telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
+//            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+//            telemetry.update();
+
         }
-    }}
+    }
